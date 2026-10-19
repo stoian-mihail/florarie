@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # Lab 1: obtine ip-ul utilizatorului si creeaza o Accesare la fiecare cerere
+    # Lab 1 + Lab 2: obtine ip-ul utilizatorului si inregistreaza accesarile
     'florarie.middleware.AccesareMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -64,6 +64,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Lab 2: context processor propriu cu datele firmei (afisate in footer)
+                'florarie.context_processors.date_firma',
             ],
         },
     },
@@ -118,3 +120,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+# Lab 2: datele firmei, trimise catre toate paginile prin context processor
+DATE_FIRMA = {
+    'nume': 'Buchetul',
+    'an_infiintare': 2012,
+    'telefon': '0721 000 111',
+    'adresa': 'Str. Florilor nr. 7, București',
+    # cele doua caracteristici alese de noi (trecute si in documentatie)
+    'program': 'Luni - Sâmbătă, 08:00 - 20:00',
+    'livrare_gratuita_de_la': 150,  # lei
+}
+

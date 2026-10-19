@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- sigla Buchetul: trei flori intr-un ambalaj de hartie, legate cu o funda -->
+  <g stroke="#2f5a39" stroke-width="2.2" stroke-linecap="round" fill="none">
+    <path d="M32 44 L22 22"/>
+    <path d="M32 44 L32 16"/>
+    <path d="M32 44 L42 22"/>
+  </g>
+  <path d="M27 31 C21 28 18 31 19 35 C23 35 26 34 27 31 Z" fill="#6fa86f"/>
+  <path d="M37 31 C43 28 46 31 45 35 C41 35 38 34 37 31 Z" fill="#6fa86f"/>
+  <g>
+    <circle cx="22" cy="20" r="7.5" fill="#e07a9b"/>
+    <circle cx="22" cy="20" r="3" fill="#f7d774"/>
+    <circle cx="42" cy="20" r="7.5" fill="#f2a65a"/>
+    <circle cx="42" cy="20" r="3" fill="#fff3c4"/>
+    <circle cx="32" cy="13" r="8.5" fill="#c2537a"/>
+    <circle cx="32" cy="13" r="3.4" fill="#f7d774"/>
+  </g>
+  <path d="M18 34 L46 34 L35 61 L29 61 Z" fill="#f6eedf" stroke="#d9c9ad" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M25 45 L39 45" stroke="#c2537a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 45 C28 49 26 51 27 53 M32 45 C36 49 38 51 37 53" stroke="#c2537a" stroke-width="2" stroke-linecap="round" fill="none"/>
+</svg>

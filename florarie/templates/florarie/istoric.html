@@ -1,0 +1,12 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Istoric - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Istoric</h1>
+<ul class="list-unstyled">
+    <li><strong>{{ firma.an_infiintare }}</strong> - deschiderea primei florării, pe {{ firma.adresa }}.</li>
+    <li><strong>2018</strong> - am început livrările la domiciliu în București.</li>
+    <li><strong>2024</strong> - am lansat magazinul online.</li>
+</ul>
+{% endblock %}

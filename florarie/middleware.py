@@ -1,4 +1,4 @@
-from .views import Accesare
+from .views import Accesare, ACCESARI
 
 
 def get_ip(request):
@@ -28,6 +28,7 @@ class AccesareMiddleware:
                 url=request.build_absolute_uri(),
                 parametri={cheie: request.GET.getlist(cheie) for cheie in request.GET},
             )
+            ACCESARI.append(accesare)
             request.accesare = accesare  # folosita in /info pentru data serverului
             print(accesare)
 

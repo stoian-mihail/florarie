@@ -1,7 +1,10 @@
+from collections import Counter
 from datetime import datetime
 from urllib.parse import urlparse
 
-from django.http import HttpResponse
+from django.http import Http404
+from django.shortcuts import render
+from django.urls import reverse
 
 
 # ---------------------------------------------------------------------------
@@ -82,32 +85,133 @@ class Accesare:
                 f"lista_parametri: {self.lista_parametri()}\n")
 
 
+# toate accesarile din sesiunea curenta a serverului (se pierd la repornire)
+ACCESARI = []
+
+
 # ---------------------------------------------------------------------------
 # Paginile site-ului
 # ---------------------------------------------------------------------------
 
-DESCRIERE = (
-    "Buchetul este o florărie online care vinde buchete, aranjamente florale și flori la ghiveci. "
-    "Clienții pot căuta și sorta florile după categorie, ocazie, preț sau culoare, pot vedea detaliile "
-    "fiecărui produs și pot plasa o comandă simplă, cu livrare în București."
-)
-
-
 def index(request):
-    return HttpResponse(f"<p>{DESCRIERE}</p>")
+    return render(request, 'florarie/index.html')
+
+
+def despre(request):
+    return render(request, 'florarie/despre.html')
+
+
+def istoric(request):
+    return render(request, 'florarie/istoric.html')
+
+
+def in_lucru(request):
+    # paginile din meniu care nu sunt inca implementate
+    return render(request, 'florarie/in_lucru.html')
 
 
 def info(request):
-    # /info?data=zi -> doar data, /info?data=timp -> doar ora
+    # Lab 1: /info?data=zi -> doar data, /info?data=timp -> doar ora
     tip = request.GET.get('data', '')
-    return HttpResponse(f"""<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="utf-8">
-    <title>Informații despre server</title>
-</head>
-<body>
-    <h1>Informații despre server</h1>
-    {request.accesare.calculeaza_data(tip=tip)}
-</body>
-</html>""")
+    return render(request, 'florarie/info.html', {
+        'sectiune_data': request.accesare.calculeaza_data(tip=tip),
+    })
+
+
+# ---------------------------------------------------------------------------
+# Lab 2: /log
+# ---------------------------------------------------------------------------
+
+PROPRIETATI = ['id', 'ip_client', 'url', 'parametri', 'data']
+
+# numele (din urls.py) paginilor luate in calcul la "cea mai/putin accesata pagina"
+PAGINI_SITE = ['index', 'info', 'log', 'despre', 'istoric', 'produse',
+               'contact', 'cos_virtual', 'ocazii', 'livrare']
+
+
+def valoare_proprietate(accesare, nume):
+    if nume == 'data':
+        return accesare.data_text()
+    if nume == 'parametri':
+        return accesare.lista_parametri()
+    return getattr(accesare, nume)
+
+
+def log(request):
+    erori = []
+    eroare_finala = None
+    accesari = ACCESARI
+
+    # /log?iduri=2,3&iduri=5&iduri=4,2,1[&dubluri=true]
+    if 'iduri' in request.GET:
+        dubluri = request.GET.get('dubluri', 'false') == 'true'
+        iduri = []
+        for valoare in request.GET.getlist('iduri'):
+            for bucata in valoare.split(','):
+                bucata = bucata.strip()
+                if not bucata.isdigit():
+                    erori.append(f"Id invalid: '{bucata}'")
+                    continue
+                id_cerut = int(bucata)
+                if dubluri or id_cerut not in iduri:
+                    iduri.append(id_cerut)
+        dupa_id = {a.id: a for a in ACCESARI}
+        accesari = [dupa_id[i] for i in iduri if i in dupa_id]
+
+    # /log?ultimele=n
+    elif 'ultimele' in request.GET:
+        try:
+            n = int(request.GET['ultimele'])
+        except ValueError:
+            n = None
+            erori.append("Parametrul ultimele trebuie să fie un număr întreg.")
+        if n is not None:
+            if n < 0:
+                erori.append("Parametrul ultimele nu poate fi negativ.")
+            elif n > len(ACCESARI):
+                eroare_finala = f"Exista doar {len(ACCESARI)} accesari fata de {n} accesari cerute"
+            else:
+                accesari = ACCESARI[len(ACCESARI) - n:]
+
+    # /log?tabel=tot sau /log?tabel=id,url
+    coloane = None
+    randuri = []
+    if 'tabel' in request.GET:
+        tabel = request.GET['tabel']
+        if tabel == 'tot':
+            coloane = PROPRIETATI
+        else:
+            coloane = [c.strip() for c in tabel.split(',') if c.strip()]
+            for c in coloane:
+                if c not in PROPRIETATI:
+                    erori.append(f"Proprietate necunoscută: '{c}'")
+            coloane = [c for c in coloane if c in PROPRIETATI]
+        randuri = [[valoare_proprietate(a, c) for c in coloane] for a in accesari]
+
+    # cea mai putin / cea mai mult accesata pagina (paginile neaccesate au 0)
+    contor = Counter(a.pagina() for a in ACCESARI)
+    for nume in PAGINI_SITE:
+        contor.update({reverse(nume): 0})
+    cea_mai_accesata = max(contor, key=contor.get)
+    cea_mai_putin_accesata = min(contor, key=contor.get)
+
+    return render(request, 'florarie/log.html', {
+        'accesari': accesari,
+        'coloane': coloane,
+        'randuri': randuri,
+        'erori': erori,
+        'eroare_finala': eroare_finala,
+        'accesari_param': request.GET.get('accesari'),  # 'nr' sau 'detalii'
+        'numar_accesari': len(ACCESARI),
+        'parametri_primiti': list(request.GET.keys()),
+        'cea_mai_accesata': (cea_mai_accesata, contor[cea_mai_accesata]),
+        'cea_mai_putin_accesata': (cea_mai_putin_accesata, contor[cea_mai_putin_accesata]),
+    })
+
+
+def accesare_detaliu(request, id):
+    # Lab 2: ruta /accesare[id] definita cu re_path
+    for accesare in ACCESARI:
+        if accesare.id == int(id):
+            return render(request, 'florarie/accesare.html', {'accesare': accesare})
+    raise Http404(f"Nu există accesarea cu id-ul {id}")
