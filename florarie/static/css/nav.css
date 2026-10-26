@@ -33,6 +33,10 @@ h1, h2 {
 }
 
 /* cardurile de produs: tot cardul e link, dar butonul de cos ramane deasupra linkului */
+.card-produs .card-img-top {
+    height: 220px;
+    object-fit: cover;  /* pozele au proportii diferite: le decupam la aceeasi inaltime */
+}
 .card-produs:hover {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
 }
