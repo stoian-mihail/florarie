@@ -1,0 +1,25 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Contact - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Contact</h1>
+<div class="row">
+    <div class="col-md-7">
+        <form method="post" class="card card-body">
+            {% csrf_token %}
+            {% for camp in form %}
+                <div class="form-group">
+                    {{ camp.label_tag }} {{ camp }}
+                    {% for eroare in camp.errors %}<small class="text-danger d-block">{{ eroare }}</small>{% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Trimite mesajul</button>
+        </form>
+    </div>
+    <div class="col-md-5 mt-3 mt-md-0">
+        <h2>Ne găsiți la</h2>
+        <p>{{ firma.adresa }}<br>Tel: {{ firma.telefon }}<br>Program: {{ firma.program }}</p>
+    </div>
+</div>
+{% endblock %}

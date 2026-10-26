@@ -1,0 +1,74 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Produse - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Produse</h1>
+
+{# formularul de filtrare: trimis prin GET, deci filtrele raman in URL #}
+<form method="get" class="card card-body mb-4">
+    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>{% endif %}
+    <div class="form-row">
+        <div class="col-md-4 mb-2">{{ form.q.label_tag }} {{ form.q }}</div>
+        <div class="col-md-4 mb-2">{{ form.categorie.label_tag }} {{ form.categorie }}</div>
+        <div class="col-md-4 mb-2">{{ form.ocazie.label_tag }} {{ form.ocazie }}</div>
+    </div>
+    <div class="form-row align-items-end">
+        <div class="col-md-3 mb-2">{{ form.tip.label_tag }} {{ form.tip }}</div>
+        <div class="col-md-2 mb-2">{{ form.pret_min.label_tag }} {{ form.pret_min }}</div>
+        <div class="col-md-2 mb-2">{{ form.pret_max.label_tag }} {{ form.pret_max }}</div>
+        <div class="col-md-3 mb-2">{{ form.sortare.label_tag }} {{ form.sortare }}</div>
+        <div class="col-md-2 mb-2 form-check pl-4">{{ form.doar_in_stoc }} {{ form.doar_in_stoc.label_tag }}</div>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success">Aplică</button>
+        <a href="{% url 'produse' %}" class="btn btn-link">Resetează filtrele</a>
+    </div>
+</form>
+
+<p class="text-muted">{{ pagina.paginator.count }} produse găsite.</p>
+
+<div class="row">
+{% for floare in pagina %}
+    <div class="col-sm-6 col-lg-4 mb-4">
+        <div class="card h-100">
+            {% if floare.imagine %}
+                <img class="card-img-top" src="{{ floare.imagine.url }}" alt="{{ floare.nume }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'produs' floare.slug %}">{{ floare.nume }}</a></h5>
+                <p class="mb-1">
+                    <span class="badge" style="background-color: {{ floare.categorie.culoare }}; color: white;">
+                        <i class="fas {{ floare.categorie.sigla }}"></i> {{ floare.categorie.nume }}
+                    </span>
+                    <span class="badge badge-light">{{ floare.get_tip_display }}</span>
+                </p>
+                <p class="h5 mb-0">{{ floare.pret }} lei</p>
+                {% if floare.stoc == 0 %}<small class="text-danger">Stoc epuizat</small>{% endif %}
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <p class="col">Nu am găsit flori care să corespundă filtrelor.</p>
+{% endfor %}
+</div>
+
+{% if pagina.has_other_pages %}
+<nav>
+    <ul class="pagination">
+        {% if pagina.has_previous %}
+            <li class="page-item"><a class="page-link" href="?{{ parametri }}&pagina={{ pagina.previous_page_number }}">&laquo;</a></li>
+        {% endif %}
+        {% for numar in pagina.paginator.page_range %}
+            <li class="page-item {% if numar == pagina.number %}active{% endif %}">
+                <a class="page-link" href="?{{ parametri }}&pagina={{ numar }}">{{ numar }}</a>
+            </li>
+        {% endfor %}
+        {% if pagina.has_next %}
+            <li class="page-item"><a class="page-link" href="?{{ parametri }}&pagina={{ pagina.next_page_number }}">&raquo;</a></li>
+        {% endif %}
+    </ul>
+    <p class="text-muted">Pagina {{ pagina.number }} din {{ pagina.paginator.num_pages }}.</p>
+</nav>
+{% endif %}
+{% endblock %}

@@ -9,3 +9,10 @@ def date_firma(request):
         'firma': settings.DATE_FIRMA,
         'an_curent': datetime.now().year,
     }
+
+
+def cos(request):
+    # numarul de produse din cos, afisat in meniu pe toate paginile
+    return {
+        'nr_produse_cos': sum(request.session.get('cos', {}).values()),
+    }

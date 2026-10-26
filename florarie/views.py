@@ -2,9 +2,19 @@ from collections import Counter
 from datetime import datetime
 from urllib.parse import urlparse
 
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import Count, F, Q
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.decorators.http import require_POST
+
+from .forms import AdaugaInCosForm, ComandaForm, ContactForm, FiltruProduseForm
+from .models import Comanda, Floare, LinieComanda, Ocazie
 
 
 # ---------------------------------------------------------------------------
@@ -211,3 +221,203 @@ def accesare_detaliu(request, id):
         if accesare.id == int(id):
             return render(request, 'florarie/accesare.html', {'accesare': accesare})
     raise Http404(f"Nu există accesarea cu id-ul {id}")
+
+
+# ---------------------------------------------------------------------------
+# Magazinul: produse, cos virtual, comanda
+# ---------------------------------------------------------------------------
+
+PRODUSE_PE_PAGINA = 6
+
+
+def produse(request):
+    # filtrare, cautare si sortare dupa parametrii din URL (formular trimis prin GET)
+    form = FiltruProduseForm(request.GET)
+    flori = Floare.objects.select_related('categorie')
+
+    if form.is_valid():
+        date = form.cleaned_data
+        if date['q']:
+            flori = flori.filter(Q(nume__icontains=date['q']) | Q(descriere__icontains=date['q']))
+        if date['categorie']:
+            flori = flori.filter(categorie=date['categorie'])
+        if date['ocazie']:
+            flori = flori.filter(ocazii=date['ocazie'])
+        if date['tip']:
+            flori = flori.filter(tip=date['tip'])
+        if date['pret_min'] is not None:
+            flori = flori.filter(pret__gte=date['pret_min'])
+        if date['pret_max'] is not None:
+            flori = flori.filter(pret__lte=date['pret_max'])
+        if date['doar_in_stoc']:
+            flori = flori.filter(stoc__gt=0)
+        if date['sortare']:
+            flori = flori.order_by(date['sortare'])
+
+    # paginare
+    paginator = Paginator(flori, PRODUSE_PE_PAGINA)
+    pagina = paginator.get_page(request.GET.get('pagina'))
+
+    # parametrii filtrelor, fara "pagina", ca sa ii pastram in linkurile de paginare
+    parametri = request.GET.copy()
+    parametri.pop('pagina', None)
+
+    return render(request, 'florarie/produse.html', {
+        'form': form,
+        'pagina': pagina,
+        'parametri': parametri.urlencode(),
+    })
+
+
+def produs(request, slug):
+    floare = get_object_or_404(Floare.objects.select_related('categorie', 'furnizor', 'ambalaj'), slug=slug)
+    return render(request, 'florarie/produs.html', {
+        'floare': floare,
+        'form': AdaugaInCosForm(),
+    })
+
+
+# cosul e tinut in sesiune, ca dictionar {id_floare (string): cantitate}
+
+def citeste_cos(request):
+    return request.session.get('cos', {})
+
+
+def salveaza_cos(request, cos):
+    request.session['cos'] = cos
+
+
+def continut_cos(cos):
+    # lista de (floare, cantitate, subtotal) si totalul cosului
+    flori = Floare.objects.in_bulk([int(id_floare) for id_floare in cos])
+    linii = []
+    for id_floare, cantitate in cos.items():
+        floare = flori.get(int(id_floare))
+        if floare:
+            linii.append((floare, cantitate, floare.pret * cantitate))
+    total = sum(subtotal for _, _, subtotal in linii)
+    return linii, total
+
+
+@require_POST
+def adauga_in_cos(request, id):
+    floare = get_object_or_404(Floare, id=id)
+    form = AdaugaInCosForm(request.POST)
+    if not form.is_valid():
+        messages.error(request, 'Cantitatea nu este validă.')
+        return redirect('produs', slug=floare.slug)
+
+    cos = citeste_cos(request)
+    cantitate = cos.get(str(id), 0) + form.cleaned_data['cantitate']
+    if cantitate > floare.stoc:
+        messages.error(request, f'Avem doar {floare.stoc} bucăți din „{floare.nume}” în stoc.')
+        return redirect('produs', slug=floare.slug)
+
+    cos[str(id)] = cantitate
+    salveaza_cos(request, cos)
+    messages.success(request, f'„{floare.nume}” a fost adăugat în coș.')
+    return redirect('cos_virtual')
+
+
+@require_POST
+def actualizeaza_cos(request):
+    cos = citeste_cos(request)
+    flori = Floare.objects.in_bulk([int(id_floare) for id_floare in cos])
+    for id_floare in list(cos):
+        try:
+            cantitate = int(request.POST.get(f'cantitate_{id_floare}', cos[id_floare]))
+        except ValueError:
+            continue
+        floare = flori.get(int(id_floare))
+        if cantitate <= 0 or floare is None:
+            del cos[id_floare]
+        else:
+            cos[id_floare] = min(cantitate, floare.stoc)
+    salveaza_cos(request, cos)
+    messages.success(request, 'Coșul a fost actualizat.')
+    return redirect('cos_virtual')
+
+
+@require_POST
+def sterge_din_cos(request, id):
+    cos = citeste_cos(request)
+    cos.pop(str(id), None)
+    salveaza_cos(request, cos)
+    return redirect('cos_virtual')
+
+
+def cos_virtual(request):
+    linii, total = continut_cos(citeste_cos(request))
+    form = ComandaForm(request.POST or None)
+
+    if request.method == 'POST' and linii and form.is_valid():
+        try:
+            comanda = plaseaza_comanda(form, linii)
+        except ValueError as eroare:
+            messages.error(request, str(eroare))
+            return redirect('cos_virtual')
+        salveaza_cos(request, {})
+        request.session['ultima_comanda'] = comanda.id
+        return redirect('confirmare_comanda', id=comanda.id)
+
+    return render(request, 'florarie/cos_virtual.html', {
+        'linii': linii,
+        'total': total,
+        'form': form,
+        'livrare_gratuita': bool(linii) and total >= settings.DATE_FIRMA['livrare_gratuita_de_la'],
+    })
+
+
+def plaseaza_comanda(form, linii):
+    # totul intr-o tranzactie: daca un produs nu mai e in stoc, nu se salveaza nimic
+    with transaction.atomic():
+        ids = [floare.id for floare, _, _ in linii]
+        stocuri = Floare.objects.select_for_update().in_bulk(ids)
+        for floare, cantitate, _ in linii:
+            if stocuri[floare.id].stoc < cantitate:
+                raise ValueError(f'Stoc insuficient pentru „{floare.nume}” '
+                                 f'(mai sunt {stocuri[floare.id].stoc} bucăți).')
+        comanda = form.save()
+        for floare, cantitate, _ in linii:
+            LinieComanda.objects.create(comanda=comanda, floare=floare,
+                                        cantitate=cantitate, pret_unitar=floare.pret)
+            Floare.objects.filter(id=floare.id).update(stoc=F('stoc') - cantitate)
+    return comanda
+
+
+def confirmare_comanda(request, id):
+    # doar cel care a plasat comanda o poate vedea
+    if request.session.get('ultima_comanda') != id:
+        raise Http404('Comanda nu a fost găsită.')
+    comanda = get_object_or_404(Comanda.objects.prefetch_related('linii__floare'), id=id)
+    return render(request, 'florarie/confirmare_comanda.html', {'comanda': comanda})
+
+
+# ---------------------------------------------------------------------------
+# Ocazii, livrare, contact
+# ---------------------------------------------------------------------------
+
+def ocazii(request):
+    return render(request, 'florarie/ocazii.html', {
+        'ocazii': Ocazie.objects.annotate(nr_flori=Count('flori')).order_by('nume'),
+    })
+
+
+def livrare(request):
+    return render(request, 'florarie/livrare.html')
+
+
+def contact(request):
+    form = ContactForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        date = form.cleaned_data
+        # in dezvoltare, e-mailul este afisat in consola serverului
+        send_mail(
+            subject=f'[Contact] {date["subiect"]}',
+            message=f'De la: {date["nume"]} <{date["email"]}>\n\n{date["mesaj"]}',
+            from_email=date['email'],
+            recipient_list=['contact@florariapetale.ro'],
+        )
+        messages.success(request, 'Mesajul a fost trimis. Vă răspundem în cel mult o zi lucrătoare.')
+        return redirect('contact')
+    return render(request, 'florarie/contact.html', {'form': form})

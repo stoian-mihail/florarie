@@ -1,0 +1,22 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Livrare - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Livrare</h1>
+
+<section class="my-3">
+    <h2>Zone și costuri</h2>
+    <table class="table table-sm w-auto">
+        <tr><th>București</th><td>15 lei, în aceeași zi pentru comenzile plasate până la ora 14:00</td></tr>
+        <tr><th>Ilfov</th><td>25 lei, în ziua următoare</td></tr>
+    </table>
+    <p>Livrarea este <strong>gratuită</strong> pentru comenzile de peste {{ firma.livrare_gratuita_de_la }} lei.</p>
+</section>
+
+<section class="my-3">
+    <h2>Plata</h2>
+    <p>Plata se face la livrare, numerar sau cu cardul. Pentru întrebări ne găsiți la {{ firma.telefon }}
+       ({{ firma.program }}).</p>
+</section>
+{% endblock %}

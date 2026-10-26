@@ -1,0 +1,17 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Comanda #{{ comanda.id }}{% endblock %}
+
+{% block continut %}
+<h1>Mulțumim, {{ comanda.nume_client }}!</h1>
+<p>Comanda <strong>#{{ comanda.id }}</strong> a fost înregistrată. Te vom suna la {{ comanda.telefon }} pentru confirmare.</p>
+
+<table class="table w-auto">
+    {% for linie in comanda.linii.all %}
+        <tr><td>{{ linie.cantitate }} x {{ linie.floare.nume }}</td><td>{{ linie.subtotal }} lei</td></tr>
+    {% endfor %}
+    <tr><th>Total</th><th>{{ comanda.total }} lei</th></tr>
+</table>
+<p>Livrare la: {{ comanda.adresa_livrare }}</p>
+<a href="{% url 'produse' %}" class="btn btn-success">Înapoi la produse</a>
+{% endblock %}

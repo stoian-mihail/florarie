@@ -255,3 +255,55 @@ class Raion(models.Model):
 
     def __str__(self):
         return f'{self.florarie.nume} - raionul {self.numar} ({self.nume})'
+
+
+# ---------------------------------------------------------------------------
+# Comenzi (cosul virtual) - entitati legate de client, adaugate dupa Lab 3
+# ---------------------------------------------------------------------------
+
+class Comanda(models.Model):
+    class Stare(models.TextChoices):
+        NOUA = 'noua', 'Nouă'
+        IN_LIVRARE = 'in_livrare', 'În livrare'
+        LIVRATA = 'livrata', 'Livrată'
+        ANULATA = 'anulata', 'Anulată'
+
+    nume_client = models.CharField(max_length=100)
+    email = models.EmailField()
+    telefon = models.CharField(max_length=20)
+    adresa_livrare = models.CharField(max_length=200)
+    observatii = models.TextField(default='', blank=True)
+    stare = models.CharField(max_length=12, choices=Stare.choices, default=Stare.NOUA)
+    data_plasare = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'comandă'
+        verbose_name_plural = 'comenzi'
+        ordering = ['-data_plasare']
+
+    def total(self):
+        return sum(linie.subtotal() for linie in self.linii.all())
+
+    def __str__(self):
+        return f'Comanda #{self.id} - {self.nume_client}'
+
+
+class LinieComanda(models.Model):
+    comanda = models.ForeignKey(Comanda, on_delete=models.CASCADE, related_name='linii')
+    floare = models.ForeignKey(Floare, on_delete=models.PROTECT)
+    cantitate = models.PositiveIntegerField()
+    # pretul de la momentul comenzii (pretul florii se poate schimba ulterior)
+    pret_unitar = models.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'linie comandă'
+        verbose_name_plural = 'linii comandă'
+        constraints = [
+            models.CheckConstraint(condition=Q(cantitate__gt=0), name='linie_cantitate_pozitiva'),
+        ]
+
+    def subtotal(self):
+        return self.pret_unitar * self.cantitate
+
+    def __str__(self):
+        return f'{self.cantitate} x {self.floare.nume}'

@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # Lab 2: context processor propriu cu datele firmei (afisate in footer)
                 'florarie.context_processors.date_firma',
+                'florarie.context_processors.cos',
             ],
         },
     },

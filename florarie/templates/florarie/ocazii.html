@@ -1,0 +1,25 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Ocazii - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Flori pentru fiecare ocazie</h1>
+<div class="row">
+{% for ocazie in ocazii %}
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ ocazie.nume }}</h5>
+                {% if ocazie.data_start %}
+                    <p class="text-muted mb-1">{{ ocazie.data_start|date:"j F" }} - {{ ocazie.data_sfarsit|date:"j F" }}</p>
+                {% endif %}
+                <p>{{ ocazie.descriere }}</p>
+                <a href="{% url 'produse' %}?ocazie={{ ocazie.id }}" class="btn btn-outline-success btn-sm">
+                    Vezi florile ({{ ocazie.nr_flori }})
+                </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

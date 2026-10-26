@@ -1,0 +1,51 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}{{ floare.nume }} - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<p><a href="{% url 'produse' %}">&larr; Înapoi la produse</a></p>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {% if floare.imagine %}
+            <img class="img-fluid rounded border" src="{{ floare.imagine.url }}" alt="{{ floare.nume }}">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <h1>{{ floare.nume }}</h1>
+        <p>
+            <a class="badge" style="background-color: {{ floare.categorie.culoare }}; color: white;"
+               href="{% url 'produse' %}?categorie={{ floare.categorie.id }}">
+                <i class="fas {{ floare.categorie.sigla }}"></i> {{ floare.categorie.nume }}
+            </a>
+            {% for ocazie in floare.ocazii.all %}
+                <a class="badge badge-light" href="{% url 'produse' %}?ocazie={{ ocazie.id }}">{{ ocazie.nume }}</a>
+            {% endfor %}
+        </p>
+        <p class="h3">{{ floare.pret }} lei</p>
+        <p>{{ floare.descriere|default:"" }}</p>
+
+        <table class="table table-sm w-auto">
+            <tr><th>Tip</th><td>{{ floare.get_tip_display }}</td></tr>
+            {% if floare.inaltime_cm %}<tr><th>Înălțime</th><td>{{ floare.inaltime_cm }} cm</td></tr>{% endif %}
+            <tr><th>Culori</th><td>{{ floare.culori|join:", " }}</td></tr>
+            <tr><th>Parfumată</th><td>{{ floare.parfumata|yesno:"da,nu" }}</td></tr>
+            {% if floare.ambalaj %}<tr><th>Ambalaj</th><td>{{ floare.ambalaj.nume }}</td></tr>{% endif %}
+            <tr><th>Furnizor</th><td>{{ floare.furnizor.nume }} ({{ floare.furnizor.tara }})</td></tr>
+            <tr><th>Stoc</th><td>{{ floare.stoc }} buc.</td></tr>
+        </table>
+
+        {% if floare.stoc > 0 %}
+            <form method="post" action="{% url 'adauga_in_cos' floare.id %}" class="form-inline">
+                {% csrf_token %}
+                <label class="mr-2" for="id_cantitate">Cantitate</label>
+                <input type="number" name="cantitate" id="id_cantitate" value="1" min="1" max="{{ floare.stoc }}"
+                       class="form-control mr-2" style="width: 6rem;">
+                <button type="submit" class="btn btn-success"><i class="fas fa-cart-plus"></i> Adaugă în coș</button>
+            </form>
+        {% else %}
+            <p class="text-danger">Momentan nu avem acest produs în stoc.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

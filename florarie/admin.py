@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Ambalaj, Categorie, Floare, Florarie, Furnizor, Ocazie, Raion
+from .models import (Ambalaj, Categorie, Comanda, Floare, Florarie, Furnizor, LinieComanda,
+                     Ocazie, Raion)
 
 
 @admin.register(Categorie)
@@ -55,3 +56,17 @@ class FlorarieAdmin(admin.ModelAdmin):
 class RaionAdmin(admin.ModelAdmin):
     list_display = ('florarie', 'numar', 'nume', 'temperatura', 'suprafata_mp')
     list_filter = ('florarie',)
+
+
+class LinieComandaInline(admin.TabularInline):
+    model = LinieComanda
+    extra = 0
+
+
+@admin.register(Comanda)
+class ComandaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nume_client', 'telefon', 'stare', 'data_plasare', 'total')
+    list_filter = ('stare',)
+    search_fields = ('nume_client', 'email', 'telefon')
+    list_editable = ('stare',)
+    inlines = [LinieComandaInline]

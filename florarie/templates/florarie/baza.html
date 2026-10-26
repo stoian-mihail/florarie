@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block titlu %}Florăria Petale{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
 </head>
 <body>
@@ -50,12 +51,18 @@
                     </div>
                 </li>
             </ul>
-            <a class="btn btn-outline-light" href="{% url 'cos_virtual' %}">Coș virtual</a>
+            <a class="btn btn-outline-light" href="{% url 'cos_virtual' %}">
+                <i class="fas fa-shopping-basket"></i> Coș virtual
+                {% if nr_produse_cos %}<span class="badge badge-light">{{ nr_produse_cos }}</span>{% endif %}
+            </a>
         </div>
     </nav>
 </header>
 
 <main class="container my-4">
+    {% for mesaj in messages %}
+        <div class="alert alert-{% if mesaj.tags == 'error' %}danger{% else %}{{ mesaj.tags }}{% endif %}">{{ mesaj }}</div>
+    {% endfor %}
     {% block continut %}{% endblock %}
 </main>
 
