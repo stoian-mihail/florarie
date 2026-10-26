@@ -36,6 +36,7 @@ h1, h2 {
 .card-produs .card-img-top {
     height: 220px;
     object-fit: cover;  /* pozele au proportii diferite: le decupam la aceeasi inaltime */
+    object-position: top;  /* la pozele inalte (plante la ghiveci) florile sunt sus */
 }
 .card-produs:hover {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
