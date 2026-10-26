@@ -11,6 +11,7 @@ from django.db.models import Count, F, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from .forms import AdaugaInCosForm, ComandaForm, ContactForm, FiltruProduseForm
@@ -302,21 +303,27 @@ def continut_cos(cos):
 @require_POST
 def adauga_in_cos(request, id):
     floare = get_object_or_404(Floare, id=id)
+    # din lista de produse se trimite "next": ne intoarcem pe aceeasi pagina
+    # (verificam ca e o adresa din site-ul nostru, nu un link spre alt site)
+    urmatoarea = request.POST.get('next')
+    if not url_has_allowed_host_and_scheme(urmatoarea, allowed_hosts={request.get_host()}):
+        urmatoarea = None
+
     form = AdaugaInCosForm(request.POST)
     if not form.is_valid():
         messages.error(request, 'Cantitatea nu este validă.')
-        return redirect('produs', slug=floare.slug)
+        return redirect(urmatoarea or reverse('produs', args=[floare.slug]))
 
     cos = citeste_cos(request)
     cantitate = cos.get(str(id), 0) + form.cleaned_data['cantitate']
     if cantitate > floare.stoc:
         messages.error(request, f'Avem doar {floare.stoc} bucăți din „{floare.nume}” în stoc.')
-        return redirect('produs', slug=floare.slug)
+        return redirect(urmatoarea or reverse('produs', args=[floare.slug]))
 
     cos[str(id)] = cantitate
     salveaza_cos(request, cos)
     messages.success(request, f'„{floare.nume}” a fost adăugat în coș.')
-    return redirect('cos_virtual')
+    return redirect(urmatoarea or reverse('cos_virtual'))
 
 
 @require_POST

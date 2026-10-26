@@ -31,12 +31,13 @@
 <div class="row">
 {% for floare in pagina %}
     <div class="col-sm-6 col-lg-4 mb-4">
-        <div class="card h-100">
+        <div class="card h-100 card-produs">
             {% if floare.imagine %}
                 <img class="card-img-top" src="{{ floare.imagine.url }}" alt="{{ floare.nume }}">
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title"><a href="{% url 'produs' floare.slug %}">{{ floare.nume }}</a></h5>
+                {# stretched-link: tot cardul devine link catre pagina produsului #}
+                <h5 class="card-title"><a href="{% url 'produs' floare.slug %}" class="stretched-link">{{ floare.nume }}</a></h5>
                 <p class="mb-1">
                     <span class="badge" style="background-color: {{ floare.categorie.culoare }}; color: white;">
                         <i class="fas {{ floare.categorie.sigla }}"></i> {{ floare.categorie.nume }}
@@ -44,7 +45,21 @@
                     <span class="badge badge-light">{{ floare.get_tip_display }}</span>
                 </p>
                 <p class="h5 mb-0">{{ floare.pret }} lei</p>
-                {% if floare.stoc == 0 %}<small class="text-danger">Stoc epuizat</small>{% endif %}
+            </div>
+            <div class="card-footer bg-white border-0 pt-0 buton-peste-link">
+                {% if floare.stoc > 0 %}
+                    <form method="post" action="{% url 'adauga_in_cos' floare.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="cantitate" value="1">
+                        {# dupa adaugare ramanem pe aceeasi pagina (cu aceleasi filtre) #}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <button type="submit" class="btn btn-success btn-block">
+                            <i class="fas fa-cart-plus"></i> Adaugă în coș
+                        </button>
+                    </form>
+                {% else %}
+                    <button type="button" class="btn btn-secondary btn-block" disabled>Stoc epuizat</button>
+                {% endif %}
             </div>
         </div>
     </div>
