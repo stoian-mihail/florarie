@@ -1,17 +1,30 @@
 {% load i18n %}
-{# copie a sablonului admin/app_list.html din Django, fara butoanele "Adauga" de pe prima pagina #}
+{# copie a sablonului admin/app_list.html din Django: fara butoanele "Adauga", iar fiecare rand e un buton intreg #}
+
+<style>
+  .lista-butoane { width: 100%; }
+  .lista-butoane th { padding: 2px 4px !important; }
+  .lista-butoane th a {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 4px;
+    text-decoration: none !important;
+  }
+  .lista-butoane th a:hover,
+  .lista-butoane th a:focus { background: var(--selected-row); }
+  .lista-butoane th a[aria-current="page"] { background: var(--selected-row); font-weight: bold; }
+</style>
 
 {% if app_list %}
   {% for app in app_list %}
     <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
-      <table>
+      <table class="lista-butoane">
         <caption>
           <a href="{{ app.app_url }}" class="section">{{ app.name }}</a>
         </caption>
         <thead class="visually-hidden">
           <tr>
             <th scope="col">{% translate 'Model name' %}</th>
-            <th scope="col">{% translate 'Change or view list link' %}</th>
           </tr>
         </thead>
         {% for model in app.models %}
@@ -24,16 +37,6 @@
                   {{ model.name }}
                 {% endif %}
               </th>
-
-              {% if model.admin_url and show_changelinks %}
-                {% if model.view_only %}
-                  <td><a href="{{ model.admin_url }}" class="viewlink" aria-describedby="{{ app.app_label }}-{{ model_name }}">{% translate 'View' %}</a></td>
-                {% else %}
-                  <td><a href="{{ model.admin_url }}" class="changelink" aria-describedby="{{ app.app_label }}-{{ model_name }}">{% translate 'Change' %}</a></td>
-                {% endif %}
-              {% elif show_changelinks %}
-                <td></td>
-              {% endif %}
             </tr>
           {% endwith %}
         {% endfor %}
