@@ -4,6 +4,18 @@
     margin-top: 0;
 }
 
+/* sigla: desenul + numele florariei */
+.sigla {
+    display: flex;
+    align-items: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+}
+.sigla img {
+    margin-right: 0.4rem;
+}
+
 .bg-verde {
     background-color: #3d6b47;
 }

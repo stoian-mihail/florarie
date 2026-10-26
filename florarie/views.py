@@ -423,7 +423,7 @@ def contact(request):
             subject=f'[Contact] {date["subiect"]}',
             message=f'De la: {date["nume"]} <{date["email"]}>\n\n{date["mesaj"]}',
             from_email=date['email'],
-            recipient_list=['contact@florariapetale.ro'],
+            recipient_list=['contact@buchetul.ro'],
         )
         messages.success(request, 'Mesajul a fost trimis. Vă răspundem în cel mult o zi lucrătoare.')
         return redirect('contact')

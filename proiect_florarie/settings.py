@@ -141,7 +141,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Lab 2: datele firmei, trimise catre toate paginile prin context processor
 DATE_FIRMA = {
-    'nume': 'Florăria Petale',
+    'nume': 'Buchetul',
     'an_infiintare': 2012,
     'telefon': '0721 000 111',
     'adresa': 'Str. Florilor nr. 7, București',

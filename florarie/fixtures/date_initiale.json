@@ -511,7 +511,7 @@
   "model": "florarie.florarie",
   "pk": 1,
   "fields": {
-    "nume": "Petale Floreasca",
+    "nume": "Buchetul Floreasca",
     "adresa": "Str. Florilor nr. 7",
     "oras": "București",
     "telefon": "0721 000 111",
@@ -523,7 +523,7 @@
   "model": "florarie.florarie",
   "pk": 2,
   "fields": {
-    "nume": "Petale Unirii",
+    "nume": "Buchetul Unirii",
     "adresa": "Bd. Unirii nr. 21",
     "oras": "București",
     "telefon": "0721 000 222",
@@ -535,7 +535,7 @@
   "model": "florarie.florarie",
   "pk": 3,
   "fields": {
-    "nume": "Petale Cluj",
+    "nume": "Buchetul Cluj",
     "adresa": "Str. Memorandumului nr. 4",
     "oras": "Cluj-Napoca",
     "telefon": "0721 000 333",
@@ -547,7 +547,7 @@
   "model": "florarie.florarie",
   "pk": 4,
   "fields": {
-    "nume": "Petale Brașov",
+    "nume": "Buchetul Brașov",
     "adresa": "Str. Republicii nr. 30",
     "oras": "Brașov",
     "telefon": "0721 000 444",
@@ -559,7 +559,7 @@
   "model": "florarie.florarie",
   "pk": 5,
   "fields": {
-    "nume": "Petale Iași",
+    "nume": "Buchetul Iași",
     "adresa": "Bd. Ștefan cel Mare nr. 12",
     "oras": "Iași",
     "telefon": "0721 000 555",

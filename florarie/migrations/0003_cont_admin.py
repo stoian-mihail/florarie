@@ -9,7 +9,7 @@ def creeaza_admin(apps, schema_editor):
     if not User.objects.filter(username='admin').exists():
         User.objects.create(
             username='admin',
-            email='admin@florariapetale.ro',
+            email='admin@buchetul.ro',
             password=make_password('password'),
             is_staff=True,
             is_superuser=True,
