@@ -10,7 +10,7 @@ def get_ip(request):
 
 
 # cereri pe care nu le consideram accesari de pagini ale site-ului
-PREFIXE_IGNORATE = ('/static/', '/admin/', '/favicon.ico')
+PREFIXE_IGNORATE = ('/static/', '/media/', '/admin/', '/favicon.ico')
 
 
 class AccesareMiddleware:
