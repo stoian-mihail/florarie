@@ -1,0 +1,30 @@
+{% extends 'florarie/baza.html' %}
+{% load static %}
+
+{% block titlu %}Despre noi - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Despre noi</h1>
+
+<section id="echipa" class="row align-items-center my-4">
+    <div class="col-md-7">
+        <h2>Echipa</h2>
+        <p>
+            Suntem o echipă mică de floriști care lucrează din {{ firma.an_infiintare }}. Fiecare buchet este
+            făcut manual, în ziua livrării, din flori primite de la furnizori locali.
+        </p>
+    </div>
+    <div class="col-md-5">
+        <img class="img-fluid rounded" src="{% static 'imagini/magazin.svg' %}" alt="Magazinul nostru">
+    </div>
+</section>
+
+<section id="valori" class="my-4">
+    <h2>Ce ne diferențiază</h2>
+    <ul>
+        <li>Flori proaspete, de sezon.</li>
+        <li>Ambalaje din hârtie reciclabilă.</li>
+        <li>Livrare în aceeași zi pentru comenzile plasate până la ora 14:00.</li>
+    </ul>
+</section>
+{% endblock %}

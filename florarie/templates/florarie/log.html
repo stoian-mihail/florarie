@@ -1,0 +1,61 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Log accesări{% endblock %}
+
+{% block continut %}
+<h1>Log accesări</h1>
+
+{% for eroare in erori %}
+    <div class="alert alert-danger">{{ eroare }}</div>
+{% endfor %}
+
+{% if coloane %}
+    {# /log?tabel=tot sau /log?tabel=id,url #}
+    <table class="table table-sm table-striped">
+        <thead><tr>{% for coloana in coloane %}<th>{{ coloana }}</th>{% endfor %}</tr></thead>
+        <tbody>
+        {% for rand in randuri %}
+            <tr>{% for valoare in rand %}<td>{{ valoare }}</td>{% endfor %}</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <ul>
+    {% for accesare in accesari %}
+        <li><a href="{% url 'accesare' accesare.id %}">#{{ accesare.id }}</a> {{ accesare.string_url }}</li>
+    {% empty %}
+        <li>Nu există accesări.</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<p>
+    Pagina cea mai accesată: <strong>{{ cea_mai_accesata.0 }}</strong> ({{ cea_mai_accesata.1 }} accesări)<br>
+    Pagina cea mai puțin accesată: <strong>{{ cea_mai_putin_accesata.0 }}</strong> ({{ cea_mai_putin_accesata.1 }} accesări)
+</p>
+
+{% if accesari_param == 'nr' %}
+<section>
+    <h2>Număr accesări</h2>
+    <p>De la pornirea serverului au fost {{ numar_accesari }} accesări.</p>
+</section>
+{% elif accesari_param == 'detalii' %}
+<section>
+    <h2>Detalii accesări</h2>
+    <ul>
+    {% for accesare in accesari %}
+        <li>#{{ accesare.id }}: {{ accesare.calculeaza_data }}</li>
+    {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+<section>
+    <h2>Parametri</h2>
+    <p>Pagina a primit {{ parametri_primiti|length }} parametri{% if parametri_primiti %}: {{ parametri_primiti|join:", " }}{% endif %}.</p>
+</section>
+
+{% if eroare_finala %}
+    <div class="alert alert-warning">{{ eroare_finala }}</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'florarie/baza.html' %}
+{% load static %}
+
+{% block titlu %}Acasă - {{ firma.nume }}{% endblock %}
+
+{% block continut %}
+<h1>Bine ați venit la {{ firma.nume }}</h1>
+
+<section id="descriere" class="row align-items-center my-4">
+    <div class="col-md-7">
+        <h2>Cine suntem</h2>
+        <p>
+            {{ firma.nume }} este o florărie online care vinde buchete, aranjamente florale și flori la ghiveci.
+            Clienții pot căuta și sorta florile după categorie, ocazie, preț sau culoare, pot vedea detaliile
+            fiecărui produs și pot plasa o comandă simplă, cu livrare în București.
+        </p>
+    </div>
+    <div class="col-md-5">
+        <img class="img-fluid rounded" src="{% static 'imagini/buchet.svg' %}" alt="Buchet de flori">
+    </div>
+</section>
+
+<section id="program" class="my-4">
+    <h2>Program</h2>
+    <table class="table table-sm table-bordered w-auto">
+        <tr><th>Luni - Vineri</th><td>08:00 - 20:00</td></tr>
+        <tr><th>Sâmbătă</th><td>09:00 - 18:00</td></tr>
+        <tr><th>Duminică</th><td>închis (comenzile online se livrează luni)</td></tr>
+    </table>
+</section>
+
+<section id="promotii" class="my-4">
+    <h2>Promoții</h2>
+    <ul>
+        <li>10% reducere la toate buchetele de trandafiri în fiecare vineri.</li>
+        <li>Livrare gratuită pentru comenzile de peste {{ firma.livrare_gratuita_de_la }} lei.</li>
+        <li>Felicitare personalizată gratuită la orice aranjament floral.</li>
+    </ul>
+</section>
+{% endblock %}

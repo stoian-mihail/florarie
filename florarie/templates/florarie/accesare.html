@@ -1,0 +1,15 @@
+{% extends 'florarie/baza.html' %}
+
+{% block titlu %}Accesarea {{ accesare.id }}{% endblock %}
+
+{% block continut %}
+<h1>Accesarea #{{ accesare.id }}</h1>
+<table class="table table-sm w-auto">
+    <tr><th>IP client</th><td>{{ accesare.ip_client }}</td></tr>
+    <tr><th>URL</th><td>{{ accesare.string_url }}</td></tr>
+    <tr><th>Pagina</th><td>{{ accesare.pagina }}</td></tr>
+    <tr><th>Data</th><td>{{ accesare.calculeaza_data }}</td></tr>
+    <tr><th>Parametri</th><td>{{ accesare.lista_parametri }}</td></tr>
+</table>
+<a href="{% url 'log' %}">&larr; Înapoi la log</a>
+{% endblock %}

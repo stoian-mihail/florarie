@@ -1,0 +1,46 @@
+/* Lab 2: meniul derulant - submeniurile apar la trecerea cu mouse-ul */
+.navbar .dropdown:hover > .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.bg-verde {
+    background-color: #3d6b47;
+}
+
+.dropdown-item:active {
+    background-color: #c2537a;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url("../imagini/fundal.svg");
+    background-size: 220px;
+}
+
+main {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 6px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+h1, h2 {
+    color: #3d6b47;
+}
+
+/* pe ecrane mici submeniurile sunt afisate direct, fara hover */
+@media (max-width: 767.98px) {
+    .navbar .dropdown-menu {
+        display: block;
+        border: none;
+        background: transparent;
+    }
+    .navbar .dropdown-item {
+        color: rgba(255, 255, 255, 0.8);
+        padding-left: 2rem;
+    }
+}
