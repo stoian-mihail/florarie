@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'florarie',
 ]
 
@@ -79,8 +81,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # baza de date si userul sunt create de creare_user.sql
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'florarie',
+        'USER': 'florarie_user',
+        'PASSWORD': 'florarie_parola',
+        'HOST': 'localhost',
+        # pe calculatorul cu Ubuntu portul 5432 e ocupat -> DB_PORT=5433
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -120,6 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Lab 3: fisierele incarcate prin ImageField (imaginile florilor)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Lab 2: datele firmei, trimise catre toate paginile prin context processor
