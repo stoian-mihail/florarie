@@ -4,16 +4,16 @@
     margin-top: 0;
 }
 
-/* sigla: desenul + numele florariei */
+/* sigla: numele florariei, cu litera "t" desenata ca o floare */
 .sigla {
-    display: flex;
-    align-items: center;
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 1.6rem;
     letter-spacing: 0.5px;
 }
-.sigla img {
-    margin-right: 0.4rem;
+.sigla .litera-t {
+    height: 1.2em;
+    vertical-align: -0.12em;
+    margin: 0 0.02em;
 }
 
 .bg-verde {
