@@ -123,6 +123,9 @@ TIME_ZONE = 'Europe/Bucharest'
 
 USE_I18N = True
 
+# traduceri proprii pentru textele din Django care nu au inca varianta in romana
+LOCALE_PATHS = [BASE_DIR / 'locale']
+
 USE_TZ = True
 
 

@@ -1,0 +1,12 @@
+# Traduceri lipsa din Django 6.1 pentru limba romana (textele noi din admin).
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+msgid "Run"
+msgstr "Execută"
+
+msgid "- Select an option -"
+msgstr "- Alegeți o opțiune -"
