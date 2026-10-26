@@ -59,7 +59,8 @@ ROOT_URLCONF = 'proiect_florarie.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # sabloanele proiectului (de ex. templates/admin/ suprascrie sabloane din admin)
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
