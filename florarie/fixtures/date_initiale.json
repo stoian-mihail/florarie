@@ -1,0 +1,658 @@
+[
+{
+  "model": "florarie.categorie",
+  "pk": 1,
+  "fields": {
+    "nume": "Trandafiri",
+    "descriere": "Trandafiri de grădină și de seră, în toate culorile.",
+    "culoare": "#c2537a",
+    "sigla": "fa-heart",
+    "sezon": "tot_anul"
+  }
+},
+{
+  "model": "florarie.categorie",
+  "pk": 2,
+  "fields": {
+    "nume": "Lalele",
+    "descriere": "Lalele olandeze și românești.",
+    "culoare": "#e07a9b",
+    "sigla": "fa-seedling",
+    "sezon": "primavara"
+  }
+},
+{
+  "model": "florarie.categorie",
+  "pk": 3,
+  "fields": {
+    "nume": "Plante la ghiveci",
+    "descriere": "Plante care rezistă mult timp în casă.",
+    "culoare": "#3d6b47",
+    "sigla": "fa-leaf",
+    "sezon": "tot_anul"
+  }
+},
+{
+  "model": "florarie.categorie",
+  "pk": 4,
+  "fields": {
+    "nume": "Flori de câmp",
+    "descriere": "Aranjamente rustice cu flori de câmp.",
+    "culoare": "#f2a65a",
+    "sigla": "fa-sun",
+    "sezon": "vara"
+  }
+},
+{
+  "model": "florarie.categorie",
+  "pk": 5,
+  "fields": {
+    "nume": "Crizanteme",
+    "descriere": "Crizanteme și flori de toamnă.",
+    "culoare": "#9d7ad6",
+    "sigla": "fa-cloud-sun",
+    "sezon": "toamna"
+  }
+},
+{
+  "model": "florarie.furnizor",
+  "pk": 1,
+  "fields": {
+    "nume": "Sera Verde SRL",
+    "email": "contact@seraverde.ro",
+    "telefon": "0744 111 222",
+    "website": "https://seraverde.ro",
+    "tara": "România",
+    "partener_din": "2015-03-01"
+  }
+},
+{
+  "model": "florarie.furnizor",
+  "pk": 2,
+  "fields": {
+    "nume": "Holland Bloom BV",
+    "email": "sales@hollandbloom.nl",
+    "telefon": "+31 20 555 0101",
+    "website": "https://hollandbloom.nl",
+    "tara": "Olanda",
+    "partener_din": "2018-09-15"
+  }
+},
+{
+  "model": "florarie.furnizor",
+  "pk": 3,
+  "fields": {
+    "nume": "Florile Bărăganului",
+    "email": "office@floribaragan.ro",
+    "telefon": "0723 333 444",
+    "website": null,
+    "tara": "România",
+    "partener_din": "2020-05-10"
+  }
+},
+{
+  "model": "florarie.furnizor",
+  "pk": 4,
+  "fields": {
+    "nume": "Plante Deco",
+    "email": "comenzi@plantedeco.ro",
+    "telefon": "0755 666 777",
+    "website": "https://plantedeco.ro",
+    "tara": "România",
+    "partener_din": "2021-01-20"
+  }
+},
+{
+  "model": "florarie.furnizor",
+  "pk": 5,
+  "fields": {
+    "nume": "Kenya Roses Ltd",
+    "email": "export@kenyaroses.co.ke",
+    "telefon": "+254 20 123 456",
+    "website": null,
+    "tara": "Kenya",
+    "partener_din": "2022-11-02"
+  }
+},
+{
+  "model": "florarie.ambalaj",
+  "pk": 1,
+  "fields": {
+    "nume": "Hârtie kraft",
+    "material": "hartie",
+    "pret": "5.00",
+    "reciclabil": true
+  }
+},
+{
+  "model": "florarie.ambalaj",
+  "pk": 2,
+  "fields": {
+    "nume": "Celofan transparent",
+    "material": "celofan",
+    "pret": "3.50",
+    "reciclabil": false
+  }
+},
+{
+  "model": "florarie.ambalaj",
+  "pk": 3,
+  "fields": {
+    "nume": "Cutie rotundă",
+    "material": "cutie",
+    "pret": "25.00",
+    "reciclabil": true
+  }
+},
+{
+  "model": "florarie.ambalaj",
+  "pk": 4,
+  "fields": {
+    "nume": "Coș de răchită",
+    "material": "cos",
+    "pret": "40.00",
+    "reciclabil": true
+  }
+},
+{
+  "model": "florarie.ambalaj",
+  "pk": 5,
+  "fields": {
+    "nume": "Hârtie mătase",
+    "material": "hartie",
+    "pret": "7.50",
+    "reciclabil": true
+  }
+},
+{
+  "model": "florarie.ocazie",
+  "pk": 1,
+  "fields": {
+    "nume": "Zi de naștere",
+    "descriere": "Flori pentru aniversări.",
+    "data_start": null,
+    "data_sfarsit": null
+  }
+},
+{
+  "model": "florarie.ocazie",
+  "pk": 2,
+  "fields": {
+    "nume": "Nuntă",
+    "descriere": "Buchete de mireasă și aranjamente pentru nunți.",
+    "data_start": null,
+    "data_sfarsit": null
+  }
+},
+{
+  "model": "florarie.ocazie",
+  "pk": 3,
+  "fields": {
+    "nume": "Ziua Îndrăgostiților",
+    "descriere": "",
+    "data_start": "2027-02-10",
+    "data_sfarsit": "2027-02-14"
+  }
+},
+{
+  "model": "florarie.ocazie",
+  "pk": 4,
+  "fields": {
+    "nume": "1 și 8 Martie",
+    "descriere": "Mărțișor și Ziua Femeii.",
+    "data_start": "2027-03-01",
+    "data_sfarsit": "2027-03-08"
+  }
+},
+{
+  "model": "florarie.ocazie",
+  "pk": 5,
+  "fields": {
+    "nume": "Condoleanțe",
+    "descriere": "Aranjamente sobre, în culori deschise.",
+    "data_start": null,
+    "data_sfarsit": null
+  }
+},
+{
+  "model": "florarie.ocazie",
+  "pk": 6,
+  "fields": {
+    "nume": "Mulțumire",
+    "descriere": "Un gest simplu de recunoștință.",
+    "data_start": null,
+    "data_sfarsit": null
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 1,
+  "fields": {
+    "nume": "Trandafiri roșii",
+    "slug": "trandafiri-rosii",
+    "descriere": "Trandafiri roșii - trandafiri de grădină și de seră, în toate culorile.",
+    "pret": "149.00",
+    "stoc": 25,
+    "inaltime_cm": 50,
+    "tip": "buchet",
+    "parfumata": true,
+    "culori": "[\"roșu\"]",
+    "imagine": "flori/trandafiri-rosii.png",
+    "data_adaugare": "2026-10-26T19:47:02.549Z",
+    "categorie": 1,
+    "furnizor": 5,
+    "ambalaj": 2,
+    "ocazii": [
+      1,
+      3
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 2,
+  "fields": {
+    "nume": "Trandafiri albi",
+    "slug": "trandafiri-albi",
+    "descriere": "Trandafiri albi - trandafiri de grădină și de seră, în toate culorile.",
+    "pret": "139.00",
+    "stoc": 18,
+    "inaltime_cm": 50,
+    "tip": "buchet",
+    "parfumata": true,
+    "culori": "[\"alb\"]",
+    "imagine": "flori/trandafiri-albi.png",
+    "data_adaugare": "2026-10-26T19:47:02.563Z",
+    "categorie": 1,
+    "furnizor": 5,
+    "ambalaj": 5,
+    "ocazii": [
+      2,
+      5
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 3,
+  "fields": {
+    "nume": "Trandafir roz la fir",
+    "slug": "trandafir-roz-la-fir",
+    "descriere": "Trandafir roz la fir - trandafiri de grădină și de seră, în toate culorile.",
+    "pret": "12.00",
+    "stoc": 120,
+    "inaltime_cm": 60,
+    "tip": "fir",
+    "parfumata": true,
+    "culori": "[\"roz\"]",
+    "imagine": "flori/trandafir-roz-la-fir.png",
+    "data_adaugare": "2026-10-26T19:47:02.574Z",
+    "categorie": 1,
+    "furnizor": 2,
+    "ambalaj": null,
+    "ocazii": [
+      6
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 4,
+  "fields": {
+    "nume": "Lalele mixte",
+    "slug": "lalele-mixte",
+    "descriere": "Lalele mixte - lalele olandeze și românești.",
+    "pret": "89.00",
+    "stoc": 40,
+    "inaltime_cm": 40,
+    "tip": "buchet",
+    "parfumata": false,
+    "culori": "[\"roșu\", \"galben\", \"mov\"]",
+    "imagine": "flori/lalele-mixte.png",
+    "data_adaugare": "2026-10-26T19:47:02.585Z",
+    "categorie": 2,
+    "furnizor": 2,
+    "ambalaj": 1,
+    "ocazii": [
+      1,
+      4
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 5,
+  "fields": {
+    "nume": "Lalele albe",
+    "slug": "lalele-albe",
+    "descriere": "Lalele albe - lalele olandeze și românești.",
+    "pret": "95.00",
+    "stoc": 15,
+    "inaltime_cm": 40,
+    "tip": "buchet",
+    "parfumata": false,
+    "culori": "[\"alb\"]",
+    "imagine": "flori/lalele-albe.png",
+    "data_adaugare": "2026-10-26T19:47:02.597Z",
+    "categorie": 2,
+    "furnizor": 2,
+    "ambalaj": 1,
+    "ocazii": [
+      2
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 6,
+  "fields": {
+    "nume": "Orhidee Phalaenopsis",
+    "slug": "orhidee-phalaenopsis",
+    "descriere": "Orhidee Phalaenopsis - plante care rezistă mult timp în casă.",
+    "pret": "119.00",
+    "stoc": 10,
+    "inaltime_cm": 55,
+    "tip": "ghiveci",
+    "parfumata": false,
+    "culori": "[\"mov\", \"alb\"]",
+    "imagine": "flori/orhidee-phalaenopsis.png",
+    "data_adaugare": "2026-10-26T19:47:02.609Z",
+    "categorie": 3,
+    "furnizor": 4,
+    "ambalaj": 3,
+    "ocazii": [
+      1,
+      6
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 7,
+  "fields": {
+    "nume": "Ficus Benjamina",
+    "slug": "ficus-benjamina",
+    "descriere": "Ficus Benjamina - plante care rezistă mult timp în casă.",
+    "pret": "159.00",
+    "stoc": 6,
+    "inaltime_cm": 120,
+    "tip": "ghiveci",
+    "parfumata": false,
+    "culori": "[\"verde\"]",
+    "imagine": "flori/ficus-benjamina.png",
+    "data_adaugare": "2026-10-26T19:47:02.620Z",
+    "categorie": 3,
+    "furnizor": 4,
+    "ambalaj": null,
+    "ocazii": [
+      6
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 8,
+  "fields": {
+    "nume": "Spathiphyllum",
+    "slug": "spathiphyllum",
+    "descriere": "Spathiphyllum - plante care rezistă mult timp în casă.",
+    "pret": "79.00",
+    "stoc": 12,
+    "inaltime_cm": 45,
+    "tip": "ghiveci",
+    "parfumata": true,
+    "culori": "[\"alb\"]",
+    "imagine": "flori/spathiphyllum.png",
+    "data_adaugare": "2026-10-26T19:47:02.631Z",
+    "categorie": 3,
+    "furnizor": 4,
+    "ambalaj": 1,
+    "ocazii": [
+      5,
+      6
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 9,
+  "fields": {
+    "nume": "Aranjament de câmp",
+    "slug": "aranjament-de-camp",
+    "descriere": "Aranjament de câmp - aranjamente rustice cu flori de câmp.",
+    "pret": "129.00",
+    "stoc": 8,
+    "inaltime_cm": 35,
+    "tip": "aranjament",
+    "parfumata": true,
+    "culori": "[\"galben\", \"albastru\", \"alb\"]",
+    "imagine": "flori/aranjament-de-camp.png",
+    "data_adaugare": "2026-10-26T19:47:02.642Z",
+    "categorie": 4,
+    "furnizor": 3,
+    "ambalaj": 4,
+    "ocazii": [
+      1
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 10,
+  "fields": {
+    "nume": "Floarea-soarelui",
+    "slug": "floarea-soarelui",
+    "descriere": "Floarea-soarelui - aranjamente rustice cu flori de câmp.",
+    "pret": "75.00",
+    "stoc": 20,
+    "inaltime_cm": 70,
+    "tip": "buchet",
+    "parfumata": false,
+    "culori": "[\"galben\"]",
+    "imagine": "flori/floarea-soarelui.png",
+    "data_adaugare": "2026-10-26T19:47:02.654Z",
+    "categorie": 4,
+    "furnizor": 3,
+    "ambalaj": 1,
+    "ocazii": [
+      1,
+      6
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 11,
+  "fields": {
+    "nume": "Crizanteme portocalii",
+    "slug": "crizanteme-portocalii",
+    "descriere": "Crizanteme portocalii - crizanteme și flori de toamnă.",
+    "pret": "69.00",
+    "stoc": 30,
+    "inaltime_cm": 45,
+    "tip": "buchet",
+    "parfumata": false,
+    "culori": "[\"portocaliu\"]",
+    "imagine": "flori/crizanteme-portocalii.png",
+    "data_adaugare": "2026-10-26T19:47:02.665Z",
+    "categorie": 5,
+    "furnizor": 1,
+    "ambalaj": 5,
+    "ocazii": [
+      6
+    ]
+  }
+},
+{
+  "model": "florarie.floare",
+  "pk": 12,
+  "fields": {
+    "nume": "Aranjament de toamnă",
+    "slug": "aranjament-de-toamna",
+    "descriere": "Aranjament de toamnă - crizanteme și flori de toamnă.",
+    "pret": "179.00",
+    "stoc": 5,
+    "inaltime_cm": 30,
+    "tip": "aranjament",
+    "parfumata": false,
+    "culori": "[\"portocaliu\", \"mov\", \"galben\"]",
+    "imagine": "flori/aranjament-de-toamna.png",
+    "data_adaugare": "2026-10-26T19:47:02.676Z",
+    "categorie": 5,
+    "furnizor": 1,
+    "ambalaj": 3,
+    "ocazii": [
+      1,
+      5
+    ]
+  }
+},
+{
+  "model": "florarie.florarie",
+  "pk": 1,
+  "fields": {
+    "nume": "Petale Floreasca",
+    "adresa": "Str. Florilor nr. 7",
+    "oras": "București",
+    "telefon": "0721 000 111",
+    "deschisa_duminica": true,
+    "data_deschidere": "2012-04-01"
+  }
+},
+{
+  "model": "florarie.florarie",
+  "pk": 2,
+  "fields": {
+    "nume": "Petale Unirii",
+    "adresa": "Bd. Unirii nr. 21",
+    "oras": "București",
+    "telefon": "0721 000 222",
+    "deschisa_duminica": false,
+    "data_deschidere": "2016-09-12"
+  }
+},
+{
+  "model": "florarie.florarie",
+  "pk": 3,
+  "fields": {
+    "nume": "Petale Cluj",
+    "adresa": "Str. Memorandumului nr. 4",
+    "oras": "Cluj-Napoca",
+    "telefon": "0721 000 333",
+    "deschisa_duminica": false,
+    "data_deschidere": "2019-03-08"
+  }
+},
+{
+  "model": "florarie.florarie",
+  "pk": 4,
+  "fields": {
+    "nume": "Petale Brașov",
+    "adresa": "Str. Republicii nr. 30",
+    "oras": "Brașov",
+    "telefon": "0721 000 444",
+    "deschisa_duminica": true,
+    "data_deschidere": "2021-06-01"
+  }
+},
+{
+  "model": "florarie.florarie",
+  "pk": 5,
+  "fields": {
+    "nume": "Petale Iași",
+    "adresa": "Bd. Ștefan cel Mare nr. 12",
+    "oras": "Iași",
+    "telefon": "0721 000 555",
+    "deschisa_duminica": false,
+    "data_deschidere": null
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 1,
+  "fields": {
+    "florarie": 1,
+    "numar": 1,
+    "nume": "Flori tăiate",
+    "temperatura": 6.0,
+    "suprafata_mp": 12.5
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 2,
+  "fields": {
+    "florarie": 1,
+    "numar": 2,
+    "nume": "Plante la ghiveci",
+    "temperatura": 20.0,
+    "suprafata_mp": 18.0
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 3,
+  "fields": {
+    "florarie": 2,
+    "numar": 1,
+    "nume": "Flori tăiate",
+    "temperatura": 6.0,
+    "suprafata_mp": 13.5
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 4,
+  "fields": {
+    "florarie": 2,
+    "numar": 2,
+    "nume": "Plante la ghiveci",
+    "temperatura": 20.0,
+    "suprafata_mp": 19.0
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 5,
+  "fields": {
+    "florarie": 3,
+    "numar": 1,
+    "nume": "Flori tăiate",
+    "temperatura": 6.0,
+    "suprafata_mp": 14.5
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 6,
+  "fields": {
+    "florarie": 3,
+    "numar": 2,
+    "nume": "Plante la ghiveci",
+    "temperatura": 20.0,
+    "suprafata_mp": 20.0
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 7,
+  "fields": {
+    "florarie": 4,
+    "numar": 1,
+    "nume": "Flori tăiate",
+    "temperatura": 6.0,
+    "suprafata_mp": 15.5
+  }
+},
+{
+  "model": "florarie.raion",
+  "pk": 8,
+  "fields": {
+    "florarie": 5,
+    "numar": 1,
+    "nume": "Flori tăiate",
+    "temperatura": 6.0,
+    "suprafata_mp": 16.5
+  }
+}
+]
