@@ -12,9 +12,9 @@ Laborator 1
     -> proiect_florarie/ (proiect), florarie/ (aplicatie), settings.py:42
 - Pagina principala cu descrierea proiectului
     -> views.py:103, templates/florarie/index.html:9-21
-- Pagina /info, titlu „Informatii despre server” (tab + h1)
+- Pagina /info, titlu "Informatii despre server" (tab + h1)
     -> urls.py:7, views.py:120, templates/florarie/info.html:3,6
-- Sectiunea „Data si ora”, data in limba romana
+- Sectiunea "Data si ora", data in limba romana
     -> templates/florarie/info.html:8-11, views.py:25-42 (ZILE, LUNI, formateaza_data)
 - Clasa Accesare: id, ip_client, url, parametri (implicit {}), data
     -> views.py:47-57
@@ -32,7 +32,7 @@ Laborator 1
     -> views.py:78-84, views.py:34
 - Middleware pentru IP
     -> middleware.py:4-12 (get_ip), middleware.py:16-22, inregistrat in settings.py:47
-- __str__() in format „camp: valoare” + id + IP, afisat in consola
+- __str__() in format "camp: valoare" + id + IP, afisat in consola
     -> views.py:86-92, middleware.py:33
 - /info?data=zi / /info?data=timp (parametru optional, implicit sir vid)
     -> views.py:120-125, views.py:78-84
@@ -44,7 +44,7 @@ Laborator 2 - Task 1
     -> urls.py:8, views.py:147, templates/florarie/log.html
 - ultimele=n + mesaj de eroare daca nu e intreg
     -> views.py:168-182
-- „Exista doar k accesari fata de n accesari cerute” (la final)
+- "Exista doar k accesari fata de n accesari cerute" (la final)
     -> views.py:179, log.html:58-60
 - accesari=nr - numarul de accesari
     -> log.html:37-41, views.py:212
@@ -52,7 +52,7 @@ Laborator 2 - Task 1
     -> views.py:152-166
 - accesari=detalii - lista cu data si ora
     -> log.html:42-50
-- Sectiunea „Parametri” (cati si ce nume)
+- Sectiunea "Parametri" (cati si ce nume)
     -> log.html:53-56, views.py:213
 - tabel=tot / tabel=id,url
     -> views.py:183-197, log.html:12-21
@@ -66,7 +66,7 @@ Laborator 2 - Task 1
 Laborator 2 - Task 2
 --------------------
 
-- Sectiunea „Continut” in documentatie
+- Sectiunea "Continut" in documentatie
     -> documentatie, sectiunea 2
 - Paginile: principala (3 sectiuni), despre (2 sectiuni), istoric, produse, contact, cos_virtual + 2 alese (ocazii, livrare)
     -> urls.py:6-21, index.html:9,23,32, despre.html:9,22
@@ -180,7 +180,7 @@ Magazinul (produse, cos, comanda)
     -> produse.html:42-43
 - Tot cardul e link catre pagina produsului (stretched-link)
     -> produse.html:40, nav.css (.buton-peste-link)
-- Buton „Adauga in cos” pe fiecare card
+- Buton "Adauga in cos" pe fiecare card
     -> produse.html:49-60, views.py:304-326
 - Pagina unui produs (dupa slug)
     -> urls.py:16, views.py:273-278, templates/florarie/produs.html

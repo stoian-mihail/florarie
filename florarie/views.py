@@ -317,12 +317,12 @@ def adauga_in_cos(request, id):
     cos = citeste_cos(request)
     cantitate = cos.get(str(id), 0) + form.cleaned_data['cantitate']
     if cantitate > floare.stoc:
-        messages.error(request, f'Avem doar {floare.stoc} bucăți din „{floare.nume}” în stoc.')
+        messages.error(request, f'Avem doar {floare.stoc} bucăți din "{floare.nume}" în stoc.')
         return redirect(urmatoarea or reverse('produs', args=[floare.slug]))
 
     cos[str(id)] = cantitate
     salveaza_cos(request, cos)
-    messages.success(request, f'„{floare.nume}” a fost adăugat în coș.')
+    messages.success(request, f'"{floare.nume}" a fost adăugat în coș.')
     return redirect(urmatoarea or reverse('cos_virtual'))
 
 
@@ -382,7 +382,7 @@ def plaseaza_comanda(form, linii):
         stocuri = Floare.objects.select_for_update().in_bulk(ids)
         for floare, cantitate, _ in linii:
             if stocuri[floare.id].stoc < cantitate:
-                raise ValueError(f'Stoc insuficient pentru „{floare.nume}” '
+                raise ValueError(f'Stoc insuficient pentru "{floare.nume}" '
                                  f'(mai sunt {stocuri[floare.id].stoc} bucăți).')
         comanda = form.save()
         for floare, cantitate, _ in linii:
