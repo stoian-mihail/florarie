@@ -1,0 +1,212 @@
+LISTA CERINTELOR SI LOCUL IMPLEMENTARII
+=======================================
+
+Proiect: Buchetul - Stoian Mihail Alexandru
+
+Toate caile sunt relative la folderul proiectului. views.py = florarie/views.py, models.py = florarie/models.py.
+
+Laborator 1
+-----------
+
+- Proiect + aplicatie cu nume potrivit temei
+    -> proiect_florarie/ (proiect), florarie/ (aplicatie), settings.py:42
+- Pagina principala cu descrierea proiectului
+    -> views.py:103, templates/florarie/index.html:9-21
+- Pagina /info, titlu „Informatii despre server” (tab + h1)
+    -> urls.py:7, views.py:120, templates/florarie/info.html:3,6
+- Sectiunea „Data si ora”, data in limba romana
+    -> templates/florarie/info.html:8-11, views.py:25-42 (ZILE, LUNI, formateaza_data)
+- Clasa Accesare: id, ip_client, url, parametri (implicit {}), data
+    -> views.py:47-57
+- id autoincrementat
+    -> views.py:48, 51-52
+- Instanta creata la fiecare cerere
+    -> middleware.py:25-33
+- lista_parametri() (None daca nu e setat)
+    -> views.py:59-70
+- string_url()
+    -> views.py:72
+- pagina()
+    -> views.py:75
+- calculeaza_data(format), refoloseste formateaza_data (codul nu e in 2 locuri), format implicit
+    -> views.py:78-84, views.py:34
+- Middleware pentru IP
+    -> middleware.py:4-12 (get_ip), middleware.py:16-22, inregistrat in settings.py:47
+- __str__() in format „camp: valoare” + id + IP, afisat in consola
+    -> views.py:86-92, middleware.py:33
+- /info?data=zi / /info?data=timp (parametru optional, implicit sir vid)
+    -> views.py:120-125, views.py:78-84
+
+Laborator 2 - Task 1
+--------------------
+
+- Pagina /log cu toate cererile
+    -> urls.py:8, views.py:147, templates/florarie/log.html
+- ultimele=n + mesaj de eroare daca nu e intreg
+    -> views.py:168-182
+- „Exista doar k accesari fata de n accesari cerute” (la final)
+    -> views.py:179, log.html:58-60
+- accesari=nr - numarul de accesari
+    -> log.html:37-41, views.py:212
+- iduri (de mai multe ori, separat prin virgula) + dubluri
+    -> views.py:152-166
+- accesari=detalii - lista cu data si ora
+    -> log.html:42-50
+- Sectiunea „Parametri” (cati si ce nume)
+    -> log.html:53-56, views.py:213
+- tabel=tot / tabel=id,url
+    -> views.py:183-197, log.html:12-21
+- Paginile /istoric si /despre
+    -> urls.py:9-10, views.py:107-113
+- Cea mai putin / cea mai mult accesata pagina
+    -> views.py:199-203, log.html:32-35
+- re_path pentru /accesare[id]
+    -> urls.py:25, views.py:219-224, templates/florarie/accesare.html
+
+Laborator 2 - Task 2
+--------------------
+
+- Sectiunea „Continut” in documentatie
+    -> documentatie, sectiunea 2
+- Paginile: principala (3 sectiuni), despre (2 sectiuni), istoric, produse, contact, cos_virtual + 2 alese (ocazii, livrare)
+    -> urls.py:6-21, index.html:9,23,32, despre.html:9,22
+- Template general baza.html cu header, main, footer
+    -> templates/florarie/baza.html:15, 67, 74
+- Template pagina principala care extinde baza
+    -> index.html:1
+- Meniu cu submeniuri, linkuri generate cu {% url %}
+    -> baza.html:25-58
+- Submeniu cu linkuri catre sectiuni de pagina
+    -> baza.html:30-32 (#descriere, #program, #promotii)
+- nav.css in static, meniu derulant
+    -> static/css/nav.css:2-5
+- Alte reguli de stil (fundal, responsive)
+    -> nav.css:19 (fundal), nav.css:36 (ecrane mici)
+- IP-ul utilizatorului in footer (middleware)
+    -> baza.html:76, middleware.py:22
+- Context processor propriu cu datele firmei din settings.py
+    -> context_processors.py:6-11, settings.py:71, settings.py:143-151
+- Cele 2 caracteristici alese: program, livrare gratuita
+    -> settings.py:149-150, baza.html:81-82
+- Toate paginile extind baza.html
+    -> info.html:1, log.html:1, despre.html:1 etc.
+- Imagini din folderul static cu {% static %}; static pe subfoldere
+    -> index.html:19, despre.html:18, sigla in baza.html:8, 20; static/css/, static/imagini/
+- in_lucru.html + view pentru paginile neimplementate
+    -> templates/florarie/in_lucru.html, views.py:115, urls.py:23 (acum toate paginile din meniu sunt implementate)
+
+Laborator 2 - Task 3
+--------------------
+
+- Diagrama bazei de date
+    -> docs/diagrama.png, documentatie sectiunea 3
+
+Laborator 3 - Task 1 (modele)
+-----------------------------
+
+7 modele: Categorie, Furnizor, Ambalaj, Ocazie, Floare, Florarie, Raion (models.py).
+
+- min. 5 campuri null
+    -> 50, 100, 102, 145, 153, 166, 171, 216
+- min. un camp unic
+    -> 16, 43, 74, 97, 133, 141
+- EmailField / URLField / SlugField
+    -> 42 / 50 / 139
+- ordonare implicita pentru min. 2 modele
+    -> 34, 178, 241
+- camp cu choices
+    -> 29, 77, 157
+- min. 4 campuri cu default (unul admite loc liber in admin)
+    -> 22, 29, 51, 79, 151, 157, 158, 213; cu blank=True: 99, 162
+- min. 5 campuri cu help_text
+    -> 23, 27, 52, 104, 142, 155, 164, 214, 235
+- datetime cu data adaugarii
+    -> 167
+- min. 5 campuri cu mesaje de eroare
+    -> 17, 44-47, 75, 134-137, 143, 149
+- min. 5 constrangeri cu models.Q
+    -> 85, 112, 185, 190, 196, 244, 249
+- min. 4 campuri indexate
+    -> 58, 180, 181, 182, 222
+- ImageField
+    -> 166
+- relatie 1:N / M:N
+    -> 169-171 / 173
+- atribut cu valori multiple (vector)
+    -> 160 (ArrayField)
+- entitate slaba (Raion)
+    -> 229-252
+
+Laborator 3 - Task 2
+--------------------
+
+- Fisierul creare_user.sql (user nou PostgreSQL)
+    -> creare_user.sql
+- Conectarea la PostgreSQL
+    -> settings.py:85-94
+- Superuser Django
+    -> creat automat la migrate: florarie/migrations/0003_cont_admin.py (admin / password)
+- Date: min. 10 produse, min. 5 randuri in celelalte tabele
+    -> 12 flori, 5 categorii/furnizori/ambalaje/florarii, 6 ocazii, 8 raioane - florarie/fixtures/date_initiale.json
+- Plural corect al entitatilor
+    -> verbose_name_plural: models.py 33, 56, 83, 109, 177, 220, 240
+- Afisare relevanta in admin
+    -> florarie/admin.py: list_display la 8, 15, 22, 28, 34, 49, 56
+
+Laborator 3 - Task 3
+--------------------
+
+- Proiect pe GitHub, cate un commit pe etapa cu -m
+    -> git log
+
+Magazinul (produse, cos, comanda)
+---------------------------------
+
+- Lista de produse
+    -> urls.py:15, views.py:234-270, templates/florarie/produse.html
+- Cautare dupa nume/descriere (Q, icontains)
+    -> views.py:241-242
+- Filtre: categorie, ocazie, tip, pret minim/maxim, doar in stoc
+    -> views.py:243-254, forms.py:17-41
+- Validarea filtrelor (pret minim > pret maxim)
+    -> forms.py:36-41
+- Sortare (order_by)
+    -> views.py:255-256, forms.py:19-25 (optiunile)
+- Paginare (Paginator, 6 produse pe pagina)
+    -> views.py:231, 259-260, produse.html:56-73
+- Filtrele pastrate in linkurile de paginare
+    -> views.py:262-264, produse.html:60, 64, 68
+- Culoarea si sigla categoriei folosite la stilizare
+    -> produse.html:42-43
+- Tot cardul e link catre pagina produsului (stretched-link)
+    -> produse.html:40, nav.css (.buton-peste-link)
+- Buton „Adauga in cos” pe fiecare card
+    -> produse.html:49-60, views.py:304-326
+- Pagina unui produs (dupa slug)
+    -> urls.py:16, views.py:273-278, templates/florarie/produs.html
+- Cosul virtual tinut in sesiune
+    -> views.py:283-299
+- Adaugare in cos (cu verificarea stocului; din lista revine pe aceeasi pagina)
+    -> urls.py:18, views.py:303-326
+- Modificare cantitati / stergere din cos
+    -> urls.py:19-20, views.py:329-352
+- Numarul de produse din cos in meniu (context processor)
+    -> context_processors.py:14-18, baza.html:61
+- Plasarea comenzii (formular din model)
+    -> views.py:356-375, forms.py:48-58
+- Comanda intr-o tranzactie, cu blocarea stocului si scaderea lui
+    -> views.py:378-392
+- Modelele Comanda si LinieComanda
+    -> models.py:264-309
+- Pagina de confirmare (doar pentru cel care a comandat)
+    -> urls.py:21, views.py:395-401
+- Comenzile in admin, cu liniile comenzii si starea editabila
+    -> admin.py:61-72
+- Mesaje de confirmare/eroare (messages)
+    -> baza.html:68-70
+- Pagina Ocazii (cu numarul de flori, annotate)
+    -> urls.py:11, views.py:407-410
+- Pagina Livrare
+    -> urls.py:12, templates/florarie/livrare.html
+- Formular de contact (e-mail afisat in consola serverului)
+    -> urls.py:13, views.py:417-430, forms.py:61-65
