@@ -71,23 +71,23 @@ Laborator 2 - Task 2
 - Paginile: principala (3 sectiuni), despre (2 sectiuni), istoric, produse, contact, cos_virtual + 2 alese (ocazii, livrare)
     -> urls.py:6-21, index.html:9,23,32, despre.html:9,22
 - Template general baza.html cu header, main, footer
-    -> templates/florarie/baza.html:15, 67, 74
+    -> templates/florarie/baza.html:15, 68, 75
 - Template pagina principala care extinde baza
     -> index.html:1
 - Meniu cu submeniuri, linkuri generate cu {% url %}
-    -> baza.html:25-58
+    -> baza.html:26-59
 - Submeniu cu linkuri catre sectiuni de pagina
-    -> baza.html:30-32 (#descriere, #program, #promotii)
+    -> baza.html:31-33 (#descriere, #program, #promotii)
 - nav.css in static, meniu derulant
     -> static/css/nav.css:2-5
 - Alte reguli de stil (fundal, responsive)
-    -> nav.css:19 (fundal), nav.css:36 (ecrane mici)
+    -> nav.css:31 (fundal), nav.css:62 (ecrane mici)
 - IP-ul utilizatorului in footer (middleware)
-    -> baza.html:76, middleware.py:22
+    -> baza.html:77, middleware.py:22
 - Context processor propriu cu datele firmei din settings.py
     -> context_processors.py:6-11, settings.py:71, settings.py:143-151
 - Cele 2 caracteristici alese: program, livrare gratuita
-    -> settings.py:149-150, baza.html:81-82
+    -> settings.py:149-150, baza.html:82-83
 - Toate paginile extind baza.html
     -> info.html:1, log.html:1, despre.html:1 etc.
 - Imagini din folderul static cu {% static %}; static pe subfoldere
@@ -191,7 +191,7 @@ Magazinul (produse, cos, comanda)
 - Modificare cantitati / stergere din cos
     -> urls.py:19-20, views.py:329-352
 - Numarul de produse din cos in meniu (context processor)
-    -> context_processors.py:14-18, baza.html:61
+    -> context_processors.py:14-18, baza.html:62
 - Plasarea comenzii (formular din model)
     -> views.py:356-375, forms.py:48-58
 - Comanda intr-o tranzactie, cu blocarea stocului si scaderea lui
@@ -203,7 +203,7 @@ Magazinul (produse, cos, comanda)
 - Comenzile in admin, cu liniile comenzii si starea editabila
     -> admin.py:61-72
 - Mesaje de confirmare/eroare (messages)
-    -> baza.html:68-70
+    -> baza.html:69-71
 - Pagina Ocazii (cu numarul de flori, annotate)
     -> urls.py:11, views.py:407-410
 - Pagina Livrare
