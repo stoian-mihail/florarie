@@ -67,7 +67,7 @@ Laborator 2 - Task 2
 --------------------
 
 - Sectiunea "Continut" in documentatie
-    -> documentatie, sectiunea 2
+    -> documentatie, sectiunea 1
 - Paginile: principala (3 sectiuni), despre (2 sectiuni), istoric, produse, contact, cos_virtual + 2 alese (ocazii, livrare)
     -> urls.py:6-21, index.html:9,23,32, despre.html:9,22
 - Template general baza.html cu header, main, footer
@@ -99,7 +99,7 @@ Laborator 2 - Task 3
 --------------------
 
 - Diagrama bazei de date
-    -> docs/diagrama.png, documentatie sectiunea 3
+    -> docs/diagrama.png, documentatie sectiunea 2
 
 Laborator 3 - Task 1 (modele)
 -----------------------------
