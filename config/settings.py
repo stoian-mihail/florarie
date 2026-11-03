@@ -59,7 +59,8 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # sabloanele proiectului (de ex. templates/admin/ suprascrie sabloane din admin)
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,6 +121,9 @@ LANGUAGE_CODE = 'ro'
 TIME_ZONE = 'Europe/Bucharest'
 
 USE_I18N = True
+
+# traduceri proprii pentru textele din Django care nu au inca varianta in romana
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 USE_TZ = True
 

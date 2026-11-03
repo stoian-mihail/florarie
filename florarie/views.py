@@ -2,9 +2,14 @@ from collections import Counter
 from datetime import datetime
 from urllib.parse import urlparse
 
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+
+from .forms import FiltruProduseForm
+from .models import Floare
 
 
 # ---------------------------------------------------------------------------
@@ -215,3 +220,54 @@ def accesare_detaliu(request, id):
         if accesare.id == int(id):
             return render(request, 'florarie/accesare.html', {'accesare': accesare})
     raise Http404(f"Nu există accesarea cu id-ul {id}")
+
+
+# ---------------------------------------------------------------------------
+# Lab 4: lista de produse si pagina produsului
+# ---------------------------------------------------------------------------
+
+PRODUSE_PE_PAGINA = 6
+
+
+def produse(request):
+    # filtrare, cautare si sortare dupa parametrii din URL (formular trimis prin GET)
+    form = FiltruProduseForm(request.GET)
+    flori = Floare.objects.select_related('categorie')
+
+    if form.is_valid():
+        date = form.cleaned_data
+        if date['q']:
+            flori = flori.filter(Q(nume__icontains=date['q']) | Q(descriere__icontains=date['q']))
+        if date['categorie']:
+            flori = flori.filter(categorie=date['categorie'])
+        if date['ocazie']:
+            flori = flori.filter(ocazii=date['ocazie'])
+        if date['tip']:
+            flori = flori.filter(tip=date['tip'])
+        if date['pret_min'] is not None:
+            flori = flori.filter(pret__gte=date['pret_min'])
+        if date['pret_max'] is not None:
+            flori = flori.filter(pret__lte=date['pret_max'])
+        if date['doar_in_stoc']:
+            flori = flori.filter(stoc__gt=0)
+        if date['sortare']:
+            flori = flori.order_by(date['sortare'])
+
+    # paginare
+    paginator = Paginator(flori, PRODUSE_PE_PAGINA)
+    pagina = paginator.get_page(request.GET.get('pagina'))
+
+    # parametrii filtrelor, fara "pagina", ca sa ii pastram in linkurile de paginare
+    parametri = request.GET.copy()
+    parametri.pop('pagina', None)
+
+    return render(request, 'florarie/produse.html', {
+        'form': form,
+        'pagina': pagina,
+        'parametri': parametri.urlencode(),
+    })
+
+
+def produs(request, slug):
+    floare = get_object_or_404(Floare.objects.select_related('categorie', 'furnizor', 'ambalaj'), slug=slug)
+    return render(request, 'florarie/produs.html', {'floare': floare})
