@@ -8,8 +8,10 @@ urlpatterns = [
     path('log', views.log, name='log'),
     path('despre', views.despre, name='despre'),
     path('istoric', views.istoric, name='istoric'),
+    # Lab 4: magazinul
+    path('produse', views.produse, name='produse'),
+    path('produse/<slug:slug>', views.produs, name='produs'),
     # pagini inca neimplementate -> template-ul in_lucru.html
-    path('produse', views.in_lucru, name='produse'),
     path('contact', views.in_lucru, name='contact'),
     path('cos_virtual', views.in_lucru, name='cos_virtual'),
     path('ocazii', views.in_lucru, name='ocazii'),
