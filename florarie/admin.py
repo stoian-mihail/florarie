@@ -30,6 +30,11 @@ class OcazieAdmin(admin.ModelAdmin):
     search_fields = ('nume',)
 
 
+@admin.action(description='Marchează drept epuizate (stoc = 0)')
+def epuizeaza_stoc(modeladmin, request, queryset):
+    queryset.update(stoc=0)
+
+
 @admin.register(Floare)
 class FloareAdmin(admin.ModelAdmin):
     list_display = ('nume', 'categorie', 'tip', 'pret', 'stoc', 'parfumata', 'data_adaugare')
@@ -37,6 +42,7 @@ class FloareAdmin(admin.ModelAdmin):
     search_fields = ('nume', 'descriere')
     prepopulated_fields = {'slug': ('nume',)}
     filter_horizontal = ('ocazii',)
+    actions = [epuizeaza_stoc]
 
 
 class RaionInline(admin.TabularInline):
@@ -63,6 +69,11 @@ class LinieComandaInline(admin.TabularInline):
     extra = 0
 
 
+@admin.action(description='Marchează drept livrată')
+def marcheaza_livrata(modeladmin, request, queryset):
+    queryset.update(stare=Comanda.Stare.LIVRATA)
+
+
 @admin.register(Comanda)
 class ComandaAdmin(admin.ModelAdmin):
     list_display = ('id', 'nume_client', 'telefon', 'stare', 'data_plasare', 'total')
@@ -70,3 +81,4 @@ class ComandaAdmin(admin.ModelAdmin):
     search_fields = ('nume_client', 'email', 'telefon')
     list_editable = ('stare',)
     inlines = [LinieComandaInline]
+    actions = [marcheaza_livrata]

@@ -1,0 +1,1 @@
+1. rulezi python manage.py runserver
